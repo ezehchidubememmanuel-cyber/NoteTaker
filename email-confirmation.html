@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Confirmation - Note Taker</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="logo-small">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                </div>
+                <h1>Check your email</h1>
+                <p>We've sent you a confirmation link to verify your email address</p>
+            </div>
+
+            <div class="confirmation-content">
+                <div class="info-box">
+                    <p><strong>What's next?</strong></p>
+                    <ol>
+                        <li>Check your email inbox</li>
+                        <li>Click the confirmation link in the email</li>
+                        <li>You'll be redirected to sign in</li>
+                    </ol>
+                </div>
+
+                <div id="errorMessage" class="error-message"></div>
+                <div id="successMessage" class="success-message"></div>
+
+                <div class="resend-section">
+                    <p>Didn't receive the email?</p>
+                    <button id="resendBtn" class="btn-secondary btn-full">
+                        Resend Confirmation Email
+                    </button>
+                </div>
+            </div>
+
+            <div class="auth-footer">
+                <p><a href="signin.html">Back to Sign In</a></p>
+                <p><a href="index.html">Back to Home</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="auth.js"></script>
+    <script>
+        // Handle email confirmation from URL parameters
+        handleEmailConfirmation();
+        
+        // Resend confirmation email
+        document.getElementById('resendBtn')?.addEventListener('click', async () => {
+            const email = localStorage.getItem('pendingConfirmationEmail');
+            if (email) {
+                await resendConfirmationEmail(email);
+            } else {
+                showError('errorMessage', 'No email found. Please sign up again.');
+            }
+        });
+    </script>
+</body>
+</html>
